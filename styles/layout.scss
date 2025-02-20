@@ -8,6 +8,10 @@ html:not(.dark) #slide-content {
   @apply bg-white text-primary;
 }
 
+.prose :where(code):not(:where(.not-prose, .not-prose *)) {
+  font-weight: inherit !important;
+}
+
 #slide-container {
   height: 100% !important;
 }
@@ -30,7 +34,17 @@ html:not(.dark) #slide-content {
   font-size: 16px;
 
   h1 {
-    @apply mb-8 mt-0;
+    @apply mb-4 mt-0;
+  }
+
+  p {
+    @apply mb-0;
+  }
+
+  &.cover {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
   h1,
@@ -50,6 +64,7 @@ html:not(.dark) #slide-content {
 
   ul {
     @apply list-disc;
+    @apply my-1;
   }
 
   .prose > ul {
@@ -120,7 +135,7 @@ html:not(.dark) #slide-content {
 
 :root {
   --shiki-color-text: #88e5c3;
-  --shiki-color-background: #282A36;
+  --shiki-color-background: hsl(220, 13%, 14%);
   --shiki-token-constant: #7aceaf;
   --shiki-token-string: #f8e4aa;
   --shiki-token-comment: #a0ada0;
@@ -130,21 +145,22 @@ html:not(.dark) #slide-content {
   --shiki-token-string-expression: #f8e4aa;
   --shiki-token-punctuation: #fbfbfb;
   --shiki-token-link: #b3f9df;
+  --slidev-code-margin: 10px 0;
 }
 
 .dark {
-  --shiki-color-background: #282A36;
+  --shiki-color-background: hsl(220, 13%, 14%);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --shiki-color-background: #282A36;
+    --shiki-color-background: hsl(220, 13%, 14%);
   }
 }
 pre.shiki {
-  @apply p-4 rounded overflow-scroll;
+  @apply p-4 rounded overflow-auto;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255,255,255, 0.1) var(--shiki-color-background);
+  scrollbar-color: rgba(255, 255, 255, 0.1) var(--shiki-color-background);
 }
 code {
   @apply font-mono;

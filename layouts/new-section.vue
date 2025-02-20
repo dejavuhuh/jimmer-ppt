@@ -4,10 +4,6 @@
     <div class="flex flex-col justify-center text-center">
       <slot></slot>
     </div>
-    <AsGraphic
-      type="zigzag"
-      class="absolute top-20 -right-30"
-    />
   </div>
 </template>
 

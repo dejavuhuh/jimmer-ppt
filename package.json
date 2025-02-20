@@ -25,16 +25,16 @@
       "fonts": {
         "sans": "Inter",
         "title": "Gilroy",
-        "mono": "Fira Code"
+        "mono": "Menlo"
       }
     }
   },
   "scripts": {
-    "dev": "slidev example.md --open",
-    "build": "slidev build example.md",
-    "export": "slidev export example.md",
+    "dev": "slidev slides.md --open",
+    "build": "slidev build slides.md",
+    "export": "slidev export slides.md",
     "release": "release-it",
-    "screenshot": "slidev export example.md --format png",
+    "screenshot": "slidev export slides.md --format png",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix"
   },

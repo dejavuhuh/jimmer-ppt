@@ -1,7 +1,7 @@
-import { fonts, rules, shortcuts, theme, typography } from '@alvarosabu/ui'
 import type {
   Preset,
 } from 'unocss'
+import { fonts, rules, shortcuts, theme, typography } from '@alvarosabu/ui'
 import {
   defineConfig,
   presetTypography,
@@ -15,7 +15,12 @@ export default defineConfig({
   shortcuts,
   rules,
   presets: [
-    presetWebFonts(fonts) as unknown as Preset,
+    presetWebFonts({
+      provider: 'none',
+      fonts: {
+        mono: ['Menlo'],
+      },
+    }),
     presetTypography(typography) as unknown as Preset,
   ],
   transformers: [transformerDirectives(), transformerVariantGroup()],
