@@ -29,6 +29,10 @@ html:not(.dark) #slide-content {
   }
 }
 
+.slidev-page {
+  user-select: auto !important;
+}
+
 .slidev-layout {
   @apply relative h-full;
   font-size: 16px;
@@ -45,6 +49,11 @@ html:not(.dark) #slide-content {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    gap: 1rem;
+
+    > * {
+      margin: 0;
+    }
   }
 
   h1,
@@ -63,8 +72,12 @@ html:not(.dark) #slide-content {
   }
 
   ul {
-    @apply list-disc;
+    @apply list-square;
     @apply my-1;
+
+    > li > ul {
+      @apply list-disc;
+    }
   }
 
   .prose > ul {
@@ -89,19 +102,25 @@ html:not(.dark) #slide-content {
   }
 
   pre {
-    font-size: 0.875rem !important;
+    // font-size: 0.75rem !important;
+
+    > code {
+      // font-size: 0.75rem !important;
+    }
   }
 
   code {
     @apply text-secondary-300;
+  }
 
-    font-size: 0.875rem !important;
+  strong {
+    @apply text-secondary-500;
   }
 
   :not(pre) > code {
     font-size: 0.9em;
     background: transparent;
-    @apply font-light py-0.5 rounded;
+    @apply font-light py-0.5 rounded px-0;
   }
 
   :not(pre) > code:before,
@@ -135,7 +154,7 @@ html:not(.dark) #slide-content {
 
 :root {
   --shiki-color-text: #88e5c3;
-  --shiki-color-background: hsl(220, 13%, 14%);
+  --shiki-color-background: hsl(220, 13%, 13%);
   --shiki-token-constant: #7aceaf;
   --shiki-token-string: #f8e4aa;
   --shiki-token-comment: #a0ada0;
@@ -146,15 +165,16 @@ html:not(.dark) #slide-content {
   --shiki-token-punctuation: #fbfbfb;
   --shiki-token-link: #b3f9df;
   --slidev-code-margin: 10px 0;
+  --slidev-code-line-height: 1.4;
 }
 
 .dark {
-  --shiki-color-background: hsl(220, 13%, 14%);
+  --shiki-color-background: hsl(220, 13%, 13%);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --shiki-color-background: hsl(220, 13%, 14%);
+    --shiki-color-background: hsl(220, 13%, 13%);
   }
 }
 pre.shiki {
