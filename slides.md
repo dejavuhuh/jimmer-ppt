@@ -14,6 +14,10 @@ themeConfig:
 
 针对 Java 和 Kotlin 的革命性 ORM 框架
 
+<!--
+今天给大家分享一下 Jimmer 这个 ORM 框架
+-->
+
 ---
 layout: center
 title: 大纲
@@ -22,7 +26,7 @@ title: 大纲
 1. <Link>ORM 概述</Link>
 2. <Link>核心功能</Link>
 3. <Link>业务案例</Link>
-4. <Link>其他内容</Link>
+4. <Link>最佳实践</Link>
 
 <style>
 li {
@@ -30,11 +34,19 @@ li {
 }
 </style>
 
+<!--
+我今天主要讲三个点，首先是关于 ORM 这个概念，我会进行一个简短的概述；然后着重介绍一下 Jimmer 这个框架的一些核心功能；紧接着我会结合实际的业务案例，带大家看一下，在平时的业务开发中，我们用 Jimmer 和用 MyBatis-Plus 具体会有怎样的一个区别；最后我会简单的聊一下，我在实际的开发过程中，总结出来的一些在 Jimmer 使用上的最佳实践，供大家参考。
+-->
+
 ---
 layout: center
 ---
 
 # ORM 概述
+
+<!--
+好，那我们先从 ORM 的概念讲起
+-->
 
 ---
 layout: cover
@@ -43,6 +55,10 @@ layout: cover
 # ORM (对象关系映射)
 
 是一种在编程语言**对象**和数据库**模型**之间建立**映射关系**的技术
+
+<!--
+ORM 的全称是"对象关系映射"，简单来说呢，它是一种在编程语言的对象和数据库的模型之间建立起这么一种映射关系的技术，或者说手段
+-->
 
 ---
 layout: statement
@@ -101,6 +117,22 @@ public class Order {
 
 </div>
 </div>
+
+<!--
+我们可以举这么一个例子，比方说一个很常见的一对多关联，一个客户可以拥有多笔订单，一个订单只能归属于一个客户。
+
+对于这么一个关系模型，在 MyBatis-Plus 中我们会定义两个实体（也就是俗称的 Entity 对象），一个 Customer，客户对象，和一个 Order，订单对象。
+这里，Customer 上的 ID 和 Order 上的 customerId 其实对应的就是数据库里的主键和外键，所以这两个字段之间是有这么一个关联关系在的。
+
+我们再来看另外一个 ORM 框架是如何定义这两个实体，不知道大家有没有了解过 JPA，这个也是 Java 生态下面非常流行的一个 ORM 框架。
+那在 JPA 当中，实体之间不再通过 ID 进行关联，而是通过对象。
+
+我们可以看到，在 Order 上，有一个 Customer 对象（而不是 customerId），这表示说这个订单所归属的客户
+
+那反过来呢，在 Customer 上，也有一个 Order 的 List，这表示啥呢，这表示这个客户所拥有的订单（因为可以拥有多个订单，所以是一个 List 嘛）。
+JPA 这种表达方式，其实更符合一种面向对象的思维模式，这种模式带来一个好处就是，你只要看到 Order 上的 Customer 对象，你就知道这两个表之间是有关联关系的，而如果是 MyBatis-Plus 这种通过 ID 关联的方式，你只能通过命名规范去约束这种关系，比如说这边的 customerId，因为它叫 customerId，你才知道它是 Customer 表的 ID，但如果它不叫 customerId 呢，比如说有些开发人员偷懒，写了一个缩写叫 custId，你其实并不能马上意识到这是哪张表的 ID，所以这个就带来了一定程度的负担。
+那我们今天要介绍的 Jimmer，它其实是和 JPA 这种模式比较像。
+-->
 
 ---
 layout: statement
@@ -824,7 +856,7 @@ ComplexUser {
 </div>
 
 <div v-click="1">
-<span><code>.dto</code>文件在编译后会自动生成<code>DTO对象</code>：</span>
+<span><code>.dto</code>文件在编译后会自动生成 <strong>DTO对象</strong>：</span>
 
 ```kotlin {hide|all|1-5|7-10|12-15}{at:'1'}
 data class ComplexUser(
@@ -852,7 +884,7 @@ layout: statement
 ---
 
 # 4. DTO 语言
-<p><code>DTO对象</code>可以在多种场景中使用：</p>
+<p><strong>DTO对象</strong>可以在多种场景中使用：</p>
 
 <div class="grid grid-cols-[1fr_1fr] gap-6">
 <div>
@@ -1479,7 +1511,35 @@ li {
 layout: center
 ---
 
-# 其他内容（待定）
+# 最佳实践
 
-- 和其他框架的性能对比
-- 客户端代码生成
+---
+
+# 最佳实践
+
+<v-clicks>
+
+- 尽可能使用`NOT NULL`字段
+  - 原因：`kotlin`严格区分非空/可空字段
+- 不允许重复的字段加上`UNIQUE`约束
+  - `user`表的`phone`字段
+  - `menu`表的`parent_id`和`name`字段（联合唯一索引）
+- 推荐使用数据库真外键
+  - 可以确保数据的一致性（**不会产生脏数据**）
+  - 清理测试数据更放心（**不容易误删**）
+  - 通常不会成为性能瓶颈，需要极致性能的地方再考虑假外键
+- 新项目很推荐使用 Jimmer，但已有项目的改造难度大（不推荐重构）
+
+</v-clicks>
+
+---
+
+# 附录
+
+1. [ORM 框架性能对比](https://jimmer.deno.dev/zh/docs/overview/benchmark)
+
+---
+layout: end
+---
+
+# 谢谢观看
